@@ -22,8 +22,8 @@
                 <li class="nav-item {{ Request::is('harga') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('harga') }}">Harga</a>
                 </li>
-                <li class="nav-item {{ Request::is('profile') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('profile') }}">Profile</a>
+                <li class="nav-item {{ Request::is('profil') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('profil') }}">Profil</a>
                 </li>
             </ul>
         </div>

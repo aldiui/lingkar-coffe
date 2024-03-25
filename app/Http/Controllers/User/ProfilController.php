@@ -15,7 +15,7 @@ class ProfilController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->isMethod('post')) {
+        if ($request->isMethod('put')) {
             $validator = Validator::make($request->all(), [
                 'nama' => 'required',
                 'email' => 'required|email|unique:users,email,' . Auth::user()->id,
@@ -25,9 +25,9 @@ class ProfilController extends Controller
                 return $this->errorResponse($validator->errors(), 'Data tidak valid', 422);
             }
 
-            $user = Auth::user()->id;
+            $user = Auth::user();
             if (!$user) {
-                return $this->errorResponse(null, 'Data Karyawan tidak ditemukan.', 404);
+                return $this->errorResponse(null, 'Data profil tidak ditemukan.', 404);
             }
 
             $user->update($request->only('nama', 'email'));
@@ -49,7 +49,7 @@ class ProfilController extends Controller
             return $this->errorResponse($validator->errors(), 'Data tidak valid', 422);
         }
 
-        $user = Auth::user()->id;
+        $user = Auth::user();
         if (!$user) {
             return $this->errorResponse(null, 'Data Karyawan tidak ditemukan.', 404);
         }

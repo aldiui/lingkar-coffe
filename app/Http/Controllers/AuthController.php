@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\HargaJual;
 use App\Models\User;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
@@ -66,6 +67,12 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role' => 'user',
+            ]);
+
+            HargaJual::create([
+                'user_id' => $user->id,
+                'harga_pokok_id' => '1',
+                'harga_jual' => '0',
             ]);
 
             return $this->successResponse($user, 'Register berhasil.');
