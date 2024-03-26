@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Stok extends Model
+class Penjualan extends Model
 {
     use HasFactory;
 
@@ -26,4 +25,5 @@ class Stok extends Model
     {
         return formatTanggal($this->attributes['tanggal']);
     }
+
 }

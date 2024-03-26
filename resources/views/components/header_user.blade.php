@@ -1,6 +1,7 @@
 <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
     <div class="container">
-        <a class="navbar-brand" href="index.html"><img src="{{ asset('images/couch.png') }}" style="width:70px;"></a>
+        <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('images/couch.png') }}"
+                style="width:70px;"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
             aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -24,6 +25,9 @@
                 </li>
                 <li class="nav-item {{ Request::is('profil') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('profil') }}">Profil</a>
+                </li>
+                <li class="nav-item {{ Request::is('logout') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('logout') }}">Logout</a>
                 </li>
             </ul>
         </div>

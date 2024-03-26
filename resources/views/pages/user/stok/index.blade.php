@@ -4,6 +4,7 @@
 
 @push('style')
     <link rel="stylesheet" href="{{ asset('library/datatables/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/sweetalert2/sweetalert2.css') }}">
 @endpush
 
 @section('main')
@@ -11,7 +12,8 @@
         <div class="row">
             <div class="col-12 mb-3 d-flex justify-content-between align-items-center">
                 <h3 class="mb-3">Data @yield('title')</h3>
-                <button class="btn btn-primary bt-sm" type="button"><i class="fa-solid fa-plus me-2"></i>Minta
+                <button class="btn btn-primary bt-sm" type="button" onclick="getModal('createModal')"><i
+                        class="fa-solid fa-plus me-2"></i>Minta
                     Stok Barang</button>
             </div>
             <div class="col-12 mb-3">
@@ -66,34 +68,17 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id="datatable">
+                            <table class="table table-bordered table-striped w-100" id="stok-table">
                                 <thead>
                                     <tr>
-                                        <th>Stok Masuk</th>
-                                        <th>Qty</th>
+                                        <th width="5%">#</th>
+                                        <th class="text-start">Tanggal</th>
+                                        <th class="text-start">Qty</th>
+                                        <th class="text-start">Status</th>
+                                        <th class="text-start" width="15%">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>12 sep 2024</td>
-                                        <td>330</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>12 sep 2024</td>
-                                        <td>330</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>12 sep 2024</td>
-                                        <td>330</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>12 sep 2024</td>
-                                        <td>330</td>
-                                    </tr>
-
                                 </tbody>
                             </table>
                         </div>
@@ -102,14 +87,65 @@
             </div>
         </div>
     </div>
+    @include('pages.user.stok.modal')
 @endsection
 
 @push('scripts')
     <script src="{{ asset('library/datatables/dataTables.min.js') }}"></script>
     <script src="{{ asset('library/datatables/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('library/sweetalert2/sweetalert2.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $('#datatable').DataTable();
-        })
+            datatableCall('stok-table', '{{ route('stok.index') }}', [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'tgl',
+                    name: 'tgl'
+                },
+                {
+                    data: 'qty',
+                    name: 'qty'
+                },
+                {
+                    data: 'status_badge',
+                    name: 'status_badge'
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi'
+                },
+            ]);
+
+            $("#bulan_filter, #tahun_filter").on("change", function() {
+                $("#stok-table").DataTable().ajax.reload();
+            });
+
+            $("#saveData").submit(function(e) {
+                setButtonLoadingState("#saveData .btn.btn-primary", true);
+                e.preventDefault();
+                const kode = $("#saveData #id").val();
+                let url = "{{ route('stok.store') }}";
+                const data = new FormData(this);
+
+                if (kode !== "") {
+                    data.append("_method", "PUT");
+                    url = `/stok/${kode}`;
+                }
+
+                const successCallback = function(response) {
+                    setButtonLoadingState("#saveData .btn.btn-primary", false);
+                    handleSuccess(response, "stok-table", "createModal");
+                };
+
+                const errorCallback = function(error) {
+                    setButtonLoadingState("#saveData .btn.btn-primary", false);
+                    handleValidationErrors(error, "saveData", ["tanggal", "qty"]);
+                };
+
+                ajaxCall(url, "POST", data, successCallback, errorCallback);
+            });
+        });
     </script>
 @endpush

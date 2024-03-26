@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->insert($userData);
 
         DB::table('harga_pokoks')->insert([
-            'admin_id' => '1',
             'harga_pokok' => '5000',
             'keuntungan' => '1000',
             'insentif' => '1000',

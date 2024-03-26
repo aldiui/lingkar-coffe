@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\HargaJual;
-use App\Models\HargaPokok;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -43,13 +42,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function hargaPokok()
-    {
-        return $this->hasOne(HargaPokok::class, 'admin_id   ');
-    }
-
     public function hargaJual()
     {
         return $this->hasOne(HargaJual::class, 'user_id');
+    }
+
+    public function stoks()
+    {
+        return $this->hasMany(Stok::class, 'user_id');
+    }
+
+    public function penjualans()
+    {
+        return $this->hasMany(Penjualan::class, 'user_id');
     }
 }

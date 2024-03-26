@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('harga_pokoks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('admin_id');
             $table->integer('harga_pokok');
             $table->integer('keuntungan');
             $table->integer('insentif');
             $table->timestamps();
-
-            $table->foreign('admin_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

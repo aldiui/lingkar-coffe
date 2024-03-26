@@ -19,7 +19,7 @@
 
 <body>
     <!-- Start Header/Navigation -->
-    @include('components.header')
+    @includeIf('components.header_' . auth()->user()->role)
     <!-- End Header/Navigation -->
     <div class="py-5">
         @yield('main')

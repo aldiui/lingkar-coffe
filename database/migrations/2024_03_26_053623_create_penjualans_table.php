@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stoks', function (Blueprint $table) {
+        Schema::create('penjualans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->date('tanggal');
             $table->integer('qty');
+            $table->integer('setoran');
+            $table->integer('keuntungan');
+            $table->integer('insentif');
+            $table->integer('pemasukan');
             $table->enum('status', ['0', '1', '2'])->default('0');
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stoks');
+        Schema::dropIfExists('penjualans');
     }
 };
