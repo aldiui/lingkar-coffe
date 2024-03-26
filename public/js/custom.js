@@ -208,3 +208,24 @@ const formatRupiah = (angka) => {
     ribuan = ribuan.join(".").split("").reverse().join("");
     return "Rp " + ribuan;
 };
+
+const reloadKeuangan = () => {
+    const url =
+        "/keuangan?bulan=" +
+        $("#bulan_filter").val() +
+        "&tahun=" +
+        $("#tahun_filter").val();
+
+    const successCallback = function (response) {
+        $("#keuntungan").html(formatRupiah(response.data.keuntungan));
+        $("#insentif").html(formatRupiah(response.data.insentif));
+        $("#setor").html(formatRupiah(response.data.setoran));
+        $("#qty").html(response.data.qty);
+    };
+
+    const errorCallback = function (error) {
+        console.log(error);
+    };
+
+    ajaxCall(url, "GET", null, successCallback, errorCallback);
+};

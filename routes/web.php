@@ -15,6 +15,7 @@ Route::middleware(['auth', 'checkRole:user'])->group(function () {
     Route::match(['get', 'put'], 'harga', [App\Http\Controllers\User\HargaController::class, 'index'])->name('harga');
     Route::resource('stok', App\Http\Controllers\User\StokController::class)->names('stok');
     Route::resource('penjualan', App\Http\Controllers\User\PenjualanController::class)->names('penjualan');
+    Route::get('keuangan', [App\Http\Controllers\User\KeuanganController::class, 'index'])->name('keuangan');
 });
 
 Route::prefix('admin')->middleware(['auth', 'checkRole:admin'])->group(function () {
@@ -26,9 +27,4 @@ Route::prefix('admin')->middleware(['auth', 'checkRole:admin'])->group(function 
     Route::match(['get', 'put'], 'harga', [App\Http\Controllers\Admin\HargaController::class, 'index'])->name('admin.harga');
     Route::resource('mitra', App\Http\Controllers\Admin\MitraController::class)->names('admin.mitra');
     Route::resource('stok', App\Http\Controllers\Admin\StokController::class)->names('admin.stok');
-});
-
-
-Route::get('/keuangan', function () {
-    return view('pages.user.keuangan.index');
 });

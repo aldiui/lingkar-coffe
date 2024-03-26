@@ -120,7 +120,7 @@
             ]);
 
             $("#bulan_filter, #tahun_filter").on("change", function() {
-                $("#stok-table").DataTable().ajax.reload();
+                $("#penjualan-table").DataTable().ajax.reload();
             });
 
             $("#saveData").submit(function(e) {
