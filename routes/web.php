@@ -7,6 +7,9 @@ Route::match(['get', 'post'], '/register', [App\Http\Controllers\AuthController:
 Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'checkRole:user'])->group(function () {
+    Route::get('/', function () {
+        return view('pages.user.dasboard.index');
+    });
     Route::match(['get', 'put'], 'profil', [App\Http\Controllers\User\ProfilController::class, 'index'])->name('profil');
     Route::put('profil/password', [App\Http\Controllers\User\ProfilController::class, 'password'])->name('profil.password');
     Route::match(['get', 'put'], 'harga', [App\Http\Controllers\User\HargaController::class, 'index'])->name('harga');
@@ -22,11 +25,9 @@ Route::prefix('admin')->middleware(['auth', 'checkRole:admin'])->group(function 
     Route::put('profil/password', [App\Http\Controllers\Admin\ProfilController::class, 'password'])->name('admin.profil.password');
     Route::match(['get', 'put'], 'harga', [App\Http\Controllers\Admin\HargaController::class, 'index'])->name('admin.harga');
     Route::resource('mitra', App\Http\Controllers\Admin\MitraController::class)->names('admin.mitra');
+    Route::resource('stok', App\Http\Controllers\Admin\StokController::class)->names('admin.stok');
 });
 
-Route::get('/', function () {
-    return view('pages.user.dasboard.index');
-});
 
 Route::get('/keuangan', function () {
     return view('pages.user.keuangan.index');

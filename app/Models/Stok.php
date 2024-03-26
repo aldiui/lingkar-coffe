@@ -24,6 +24,6 @@ class Stok extends Model
 
     public function getTglAttribute()
     {
-        return formatTanggal($this->attributes['tanggal']);
+        return formatTanggal($this->attributes['tanggal'], 'd M Y');
     }
 }

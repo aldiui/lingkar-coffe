@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Penjualan')
+@section('title', 'Stok')
 
 @push('style')
     <link rel="stylesheet" href="{{ asset('library/datatables/dataTables.bootstrap5.min.css') }}">
@@ -12,9 +12,6 @@
         <div class="row">
             <div class="col-12 mb-3 d-flex justify-content-between align-items-center">
                 <h3 class="mb-3">Data @yield('title')</h3>
-                <button class="btn btn-primary bt-sm" type="button" onclick="getModal('createModal')"><i
-                        class="fa-solid fa-plus me-2"></i>Tambah
-                    Penjualan</button>
             </div>
             <div class="col-12 mb-3">
                 <div class="card">
@@ -53,16 +50,14 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="table-responsive mb-3">
-                            <table class="table table-bordered table-striped w-100" id="penjualan-table">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped w-100" id="stok-table">
                                 <thead>
                                     <tr>
                                         <th width="5%">#</th>
                                         <th class="text-start">Tanggal</th>
+                                        <th class="text-start">Mitra</th>
                                         <th class="text-start">Qty</th>
-                                        <th class="text-start">Pemasukan</th>
-                                        <th class="text-start">Keuntungan</th>
-                                        <th class="text-start">Insentif</th>
                                         <th class="text-start">Status</th>
                                         <th class="text-start" width="15%">Aksi</th>
                                     </tr>
@@ -76,7 +71,7 @@
             </div>
         </div>
     </div>
-    @include('pages.user.penjualan.modal')
+    @include('pages.user.stok.modal')
 @endsection
 
 @push('scripts')
@@ -85,7 +80,7 @@
     <script src="{{ asset('library/sweetalert2/sweetalert2.js') }}"></script>
     <script>
         $(document).ready(function() {
-            datatableCall('penjualan-table', '{{ route('penjualan.index') }}', [{
+            datatableCall('stok-table', '{{ route('admin.stok.index') }}', [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
                 },
@@ -94,20 +89,12 @@
                     name: 'tgl'
                 },
                 {
+                    data: 'mitra',
+                    name: 'mitra'
+                },
+                {
                     data: 'qty',
                     name: 'qty'
-                },
-                {
-                    data: 'setoran_rupiah',
-                    name: 'setoran_rupiah'
-                },
-                {
-                    data: 'keuntungan_rupiah',
-                    name: 'keuntungan_rupiah'
-                },
-                {
-                    data: 'insentif_rupiah',
-                    name: 'insentif_rupiah'
                 },
                 {
                     data: 'status_badge',
@@ -127,22 +114,17 @@
                 setButtonLoadingState("#saveData .btn.btn-primary", true);
                 e.preventDefault();
                 const kode = $("#saveData #id").val();
-                let url = "{{ route('penjualan.store') }}";
+                const url = `/admin/stok/${kode}`;
                 const data = new FormData(this);
-
-                if (kode !== "") {
-                    data.append("_method", "PUT");
-                    url = `/penjualan/${kode}`;
-                }
 
                 const successCallback = function(response) {
                     setButtonLoadingState("#saveData .btn.btn-primary", false);
-                    handleSuccess(response, "penjualan-table", "createModal");
+                    handleSuccess(response, "stok-table", "createModal");
                 };
 
                 const errorCallback = function(error) {
                     setButtonLoadingState("#saveData .btn.btn-primary", false);
-                    handleValidationErrors(error, "saveData", ["tanggal", "qty"]);
+                    handleValidationErrors(error, "saveData", ["status"]);
                 };
 
                 ajaxCall(url, "POST", data, successCallback, errorCallback);

@@ -20,7 +20,7 @@ class PenjualanController extends Controller
         $tahun = $request->tahun ?? date('Y');
 
         if ($request->ajax()) {
-            $penjualans = Penjualan::whereYear('created_at', $tahun)->whereMonth('created_at', $bulan)->get();
+            $penjualans = Penjualan::where('user_id', Auth::user()->id)->whereYear('created_at', $tahun)->whereMonth('created_at', $bulan)->get();
             if ($request->mode == "datatable") {
                 return DataTables::of($penjualans)
                     ->addColumn('aksi', function ($penjualan) {

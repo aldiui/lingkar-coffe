@@ -19,8 +19,6 @@
                         <i class="fa-solid fa-wallet me-2"></i>Keuntungan :
                         <span>Rp 1.000.000</span>
                     </div>
-                    <button class="btn btn-primary btn-sm rounded-pill mb-2" type="button">Tarik Keuntungan</button>
-                    <small>*Keuntungan bisa ditarik Kapanpun</small>
                 </div>
             </div>
             <div class="col-lg-4 mb-3">
@@ -28,8 +26,6 @@
                     <div class="fs-5 mb-3">
                         <i class="fa-solid fa-money-bill me-2"></i>Insentif : <span>Rp 1.000.000</span>
                     </div>
-                    <button class="btn btn-primary btn-sm rounded-pill mb-2" type="button">Tarik Insentif</button>
-                    <small>*Insentif bisa ditarik setelah target tercapai</small>
                 </div>
             </div>
             <div class="col-lg-4 mb-3">
@@ -37,8 +33,6 @@
                     <div class="fs-5 mb-3">
                         <i class="fa-solid fa-credit-card me-2"></i>Setor Penjualan : <span>Rp 1.000.000</span>
                     </div>
-                    <button class="btn btn-primary btn-sm rounded-pill mb-2" type="button">Setor Penjualan</button>
-                    <small>*Setoran dilakukan melalui uang cash</small>
                 </div>
             </div>
             <div class="col-lg-6 mb-3">
@@ -102,8 +96,6 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="small">Jumlah Terjual : 40 PCS Lingkar Coffee</div>
-                <div class="small">*Stok tersisa 20 PCS Lingkar Coffee</div>
             </div>
         </div>
     </div>

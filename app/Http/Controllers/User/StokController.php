@@ -20,7 +20,7 @@ class StokController extends Controller
         $tahun = $request->tahun ?? date('Y');
 
         if ($request->ajax()) {
-            $stoks = Stok::whereYear('created_at', $tahun)->whereMonth('created_at', $bulan)->get();
+            $stoks = Stok::where('user_id', Auth::user()->id)->whereYear('created_at', $tahun)->whereMonth('created_at', $bulan)->get();
             if ($request->mode == "datatable") {
                 return DataTables::of($stoks)
                     ->addColumn('aksi', function ($stok) {
