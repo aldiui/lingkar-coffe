@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Penjualan;
 use App\Traits\ApiResponder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -20,14 +19,13 @@ class DashboardController extends Controller
         $tahun = $request->tahun ?? date('Y');
 
         if ($request->ajax()) {
-            $setoran = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('setoran');
-            $keuntungan = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('keuntungan');
-            $qty = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('qty');
+            $setoran = Penjualan::whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('setoran');
+            $keuntungan = Penjualan::whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('keuntungan');
+            $qty = Penjualan::whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('qty');
             $startDate = Carbon::createFromDate($tahun, $bulan, 1)->startOfMonth();
             $endDate = Carbon::createFromDate($tahun, $bulan, 1)->endOfMonth();
 
-            $transaksiPerbulan = Penjualan::where('user_id', Auth::user()->id)
-                ->whereBetween('tanggal', [$startDate, $endDate])
+            $transaksiPerbulan = Penjualan::whereBetween('tanggal', [$startDate, $endDate])
                 ->groupBy('date')
                 ->orderBy('date')
                 ->get([
@@ -55,6 +53,6 @@ class DashboardController extends Controller
             return $this->successResponse(compact('setoran', 'keuntungan', 'qty', 'chart'), 'Data Dashboard.');
         }
 
-        return view('pages.user.dashboard.index');
+        return view('pages.admin.dashboard.index');
     }
 }

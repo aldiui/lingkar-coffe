@@ -118,37 +118,37 @@
     <script src="{{ asset('library/sweetalert2/sweetalert2.js') }}"></script>
     <script>
         $(document).ready(function() {
-            datatableCall('penjualan-table', '{{ route('penjualan.index') }}', [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'tgl',
-                    name: 'tgl'
-                },
-                {
-                    data: 'qty',
-                    name: 'qty'
-                },
-                {
-                    data: 'setoran_rupiah',
-                    name: 'setoran_rupiah'
-                },
-                {
-                    data: 'keuntungan_rupiah',
-                    name: 'keuntungan_rupiah'
-                },
-                {
-                    data: 'insentif_rupiah',
-                    name: 'insentif_rupiah'
-                },
-            ]);
+            // datatableCall('penjualan-table', '{{ route('penjualan.index') }}', [{
+            //         data: 'DT_RowIndex',
+            //         name: 'DT_RowIndex'
+            //     },
+            //     {
+            //         data: 'tgl',
+            //         name: 'tgl'
+            //     },
+            //     {
+            //         data: 'qty',
+            //         name: 'qty'
+            //     },
+            //     {
+            //         data: 'setoran_rupiah',
+            //         name: 'setoran_rupiah'
+            //     },
+            //     {
+            //         data: 'keuntungan_rupiah',
+            //         name: 'keuntungan_rupiah'
+            //     },
+            //     {
+            //         data: 'insentif_rupiah',
+            //         name: 'insentif_rupiah'
+            //     },
+            // ]);
 
-            reloadData('keuangan_user');
+            reloadData('keuangan');
 
             $("#bulan_filter, #tahun_filter").on("change", function() {
                 $("#penjualan-table").DataTable().ajax.reload();
-                reloadData('keuangan_user');
+                reloadData('keuangan');
             });
         });
     </script>

@@ -209,18 +209,56 @@ const formatRupiah = (angka) => {
     return "Rp " + ribuan;
 };
 
-const reloadKeuangan = () => {
-    const url =
-        "/keuangan?bulan=" +
-        $("#bulan_filter").val() +
-        "&tahun=" +
-        $("#tahun_filter").val();
+const reloadData = (type) => {
+    let url = null;
+    if (type == "keuangan_user") {
+        url =
+            "/keuangan?bulan=" +
+            $("#bulan_filter").val() +
+            "&tahun=" +
+            $("#tahun_filter").val();
+    } else if (type == "keuangan") {
+        url =
+            "/admin/keuangan?bulan=" +
+            $("#bulan_filter").val() +
+            "&tahun=" +
+            $("#tahun_filter").val();
+    } else if (type == "dashboard_user") {
+        url =
+            "/?bulan=" +
+            $("#bulan_filter").val() +
+            "&tahun=" +
+            $("#tahun_filter").val();
+    } else if (type == "dashboard") {
+        url =
+            "/admin?bulan=" +
+            $("#bulan_filter").val() +
+            "&tahun=" +
+            $("#tahun_filter").val();
+    }
 
     const successCallback = function (response) {
-        $("#keuntungan").html(formatRupiah(response.data.keuntungan));
-        $("#insentif").html(formatRupiah(response.data.insentif));
-        $("#setor").html(formatRupiah(response.data.setoran));
-        $("#qty").html(response.data.qty);
+        if (type == "keuangan_user") {
+            $("#keuntungan").html(formatRupiah(response.data.keuntungan));
+            $("#insentif").html(formatRupiah(response.data.insentif));
+            $("#setor").html(formatRupiah(response.data.setoran));
+            $("#qty").html(response.data.qty);
+        } else if (type == "keuangan") {
+            $("#keuntungan").html(formatRupiah(response.data.keuntungan));
+            $("#insentif").html(formatRupiah(response.data.insentif));
+            $("#setor").html(formatRupiah(response.data.setoran));
+            $("#qty").html(response.data.qty);
+        } else if (type == "dashboard_user") {
+            $("#keuntungan").html(formatRupiah(response.data.keuntungan));
+            $("#setor").html(formatRupiah(response.data.setoran));
+            $("#qty").html(response.data.qty);
+            renderChart(response.data.chart.labels, response.data.chart.qty);
+        } else if (type == "dashboard") {
+            $("#keuntungan").html(formatRupiah(response.data.keuntungan));
+            $("#setor").html(formatRupiah(response.data.setoran));
+            $("#qty").html(response.data.qty);
+            renderChart(response.data.chart.labels, response.data.chart.qty);
+        }
     };
 
     const errorCallback = function (error) {
@@ -228,4 +266,37 @@ const reloadKeuangan = () => {
     };
 
     ajaxCall(url, "GET", null, successCallback, errorCallback);
+};
+
+const resetChart = () => {
+    const chartElement = document.querySelector("#chart");
+    if (chartElement) {
+        chartElement.innerHTML = "";
+    }
+};
+
+const renderChart = (labels, qty) => {
+    resetChart();
+
+    const options = {
+        chart: {
+            type: "bar",
+            height: 400,
+        },
+        series: [
+            {
+                name: "Qty",
+                data: qty,
+            },
+        ],
+        xaxis: {
+            categories: labels,
+        },
+        title: {
+            text: "Grafik Stok Bulan Ini",
+        },
+    };
+
+    const chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
 };
