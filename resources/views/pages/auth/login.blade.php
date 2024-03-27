@@ -50,7 +50,7 @@
 
                 const successCallback = function(response) {
                     setButtonLoadingState("#login .btn.btn-primary", false, "Login");
-                    handleSuccess(response, null, null, "/");
+                    handleSuccess(response, null, null, response.data.role == "admin" ? "/admin" : "/");
                 };
 
                 const errorCallback = function(error) {
