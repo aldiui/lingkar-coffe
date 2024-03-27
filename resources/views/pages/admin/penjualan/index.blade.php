@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Keuangan')
-
+@section('title', 'Penjualan')
 
 @push('style')
     <link rel="stylesheet" href="{{ asset('library/datatables/dataTables.bootstrap5.min.css') }}">
@@ -11,7 +10,7 @@
 @section('main')
     <div class="container">
         <div class="row">
-            <div class="col-12 mb-3">
+            <div class="col-12 mb-3 d-flex justify-content-between align-items-center">
                 <h3 class="mb-3">Data @yield('title')</h3>
             </div>
             <div class="col-12 mb-3">
@@ -48,44 +47,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 mb-3">
-                <div class="card card-body">
-                    <div class="fs-5">
-                        <i class="fa-solid fa-wallet me-2"></i>Keuntungan :
-                        <span id="keuntungan">Rp. 0</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-3">
-                <div class="card card-body">
-                    <div class="fs-5">
-                        <i class="fa-solid fa-money-bill me-2"></i>Insentif : <span id="insentif">Rp. 0</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-3">
-                <div class="card card-body">
-                    <div class="fs-5">
-                        <i class="fa-solid fa-credit-card me-2"></i>Setor Penjualan : <span id="setor">Rp. 0</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 mb-3">
-                <div class="card card-body">
-                    <div class="fs-5">
-                        <i class="fa-solid fa-bolt me-2"></i> Target :
-                        <span>300</span> PCS/Bulan
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 mb-3">
-                <div class="card card-body">
-                    <div class="fs-5">
-                        <i class="fa-solid fa-check me-2"></i> Tercapai :
-                        <span id="qty">0</span> PCS/Bulan</h5>
-                    </div>
-                </div>
-            </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -100,6 +61,8 @@
                                         <th class="text-start">Pemasukan</th>
                                         <th class="text-start">Keuntungan</th>
                                         <th class="text-start">Insentif</th>
+                                        <th class="text-start">Status</th>
+                                        <th class="text-start" width="15%">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -147,13 +110,18 @@
                     data: 'insentif_rupiah',
                     name: 'insentif_rupiah'
                 },
+                {
+                    data: 'status_badge',
+                    name: 'status_badge'
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi'
+                },
             ]);
-
-            reloadData('keuangan');
 
             $("#bulan_filter, #tahun_filter").on("change", function() {
                 $("#penjualan-table").DataTable().ajax.reload();
-                reloadData('keuangan');
             });
         });
     </script>

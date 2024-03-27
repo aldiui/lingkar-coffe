@@ -24,4 +24,5 @@ Route::prefix('admin')->middleware(['auth', 'checkRole:admin'])->group(function 
     Route::resource('mitra', App\Http\Controllers\Admin\MitraController::class)->names('admin.mitra');
     Route::resource('stok', App\Http\Controllers\Admin\StokController::class)->names('admin.stok');
     Route::get('keuangan', [App\Http\Controllers\Admin\KeuanganController::class, 'index'])->name('admin.keuangan');
+    Route::resource('penjualan', App\Http\Controllers\Admin\PenjualanController::class)->names('admin.penjualan');
 });
