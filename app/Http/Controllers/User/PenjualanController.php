@@ -68,7 +68,7 @@ class PenjualanController extends Controller
         $setoran = $qty * Auth::user()->hargaJual->hargaPokok->harga_pokok;
         $insentif = $qty * Auth::user()->hargaJual->hargaPokok->insentif;
         $pemasukan = $qty * Auth::user()->hargaJual->harga_jual;
-        $keuntungan = ($qty * Auth::user()->hargaJual->hargaPokok->keuntungan) + $pemasukan;
+        $keuntungan = $qty * Auth::user()->hargaJual->hargaPokok->keuntungan;
 
         $penjualan = Penjualan::create([
             'tanggal' => $request->tanggal,
@@ -124,7 +124,7 @@ class PenjualanController extends Controller
         $setoran = $qty * Auth::user()->hargaJual->hargaPokok->harga_pokok;
         $insentif = $qty * Auth::user()->hargaJual->hargaPokok->insentif;
         $pemasukan = $qty * Auth::user()->hargaJual->harga_jual;
-        $keuntungan = ($qty * Auth::user()->hargaJual->hargaPokok->keuntungan) + $pemasukan;
+        $keuntungan = $qty * Auth::user()->hargaJual->hargaPokok->keuntungan;
 
         $penjualan->update([
             'tanggal' => $request->tanggal,
