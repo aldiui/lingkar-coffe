@@ -31,9 +31,6 @@ class PenjualanController extends Controller
                     ->addColumn('tgl', function ($penjualan) {
                         return $penjualan->tgl;
                     })
-                    ->addColumn('status_badge', function ($penjualan) {
-                        return $penjualan->status_badge;
-                    })
                     ->addColumn('setoran_rupiah', function ($penjualan) {
                         return formatRupiah($penjualan->setoran);
                     })
@@ -44,7 +41,7 @@ class PenjualanController extends Controller
                         return formatRupiah($penjualan->insentif);
                     })
                     ->addIndexColumn()
-                    ->rawColumns(['aksi', 'tgl', 'status_badge', 'setoran_rupiah', 'keuntungan_rupiah', 'insentif_rupiah'])
+                    ->rawColumns(['aksi', 'tgl', 'setoran_rupiah', 'keuntungan_rupiah', 'insentif_rupiah'])
                     ->make(true);
             }
         }
@@ -81,6 +78,10 @@ class PenjualanController extends Controller
             'insentif' => $insentif,
             'pemasukan' => $pemasukan,
             'user_id' => Auth::user()->id,
+        ]);
+
+        Auth::user()->update([
+            'stok' => Auth::user()->stok - $qty,
         ]);
 
         return $this->successResponse($penjualan, 'Data Penjualan ditambahkan.', 201);

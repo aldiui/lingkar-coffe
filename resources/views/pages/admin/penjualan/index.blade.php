@@ -61,8 +61,6 @@
                                         <th class="text-start">Pemasukan</th>
                                         <th class="text-start">Keuntungan</th>
                                         <th class="text-start">Insentif</th>
-                                        <th class="text-start">Status</th>
-                                        <th class="text-start" width="15%">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -109,14 +107,6 @@
                 {
                     data: 'insentif_rupiah',
                     name: 'insentif_rupiah'
-                },
-                {
-                    data: 'status_badge',
-                    name: 'status_badge'
-                },
-                {
-                    data: 'aksi',
-                    name: 'aksi'
                 },
             ]);
 

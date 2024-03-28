@@ -26,9 +26,6 @@ class PenjualanController extends Controller
                     ->addColumn('tgl', function ($penjualan) {
                         return $penjualan->tgl;
                     })
-                    ->addColumn('status_badge', function ($penjualan) {
-                        return $penjualan->status_badge;
-                    })
                     ->addColumn('setoran_rupiah', function ($penjualan) {
                         return formatRupiah($penjualan->setoran);
                     })
@@ -42,7 +39,7 @@ class PenjualanController extends Controller
                         return $stok->user->nama;
                     })
                     ->addIndexColumn()
-                    ->rawColumns(['aksi', 'tgl', 'status_badge', 'setoran_rupiah', 'keuntungan_rupiah', 'insentif_rupiah', 'mitra'])
+                    ->rawColumns(['aksi', 'tgl', 'setoran_rupiah', 'keuntungan_rupiah', 'insentif_rupiah', 'mitra'])
                     ->make(true);
             }
         }

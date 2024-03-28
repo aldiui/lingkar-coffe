@@ -66,7 +66,8 @@
             <div class="col-lg-4 mb-3">
                 <div class="card card-body">
                     <div class="fs-5">
-                        <i class="fa-solid fa-credit-card me-2"></i>Setor Penjualan : <span id="setor">Rp. 0</span>
+                        <i class="fa-solid fa-credit-card me-2"></i>Pendapatan Perusahaan : <span id="setor">Rp.
+                            0</span>
                     </div>
                 </div>
             </div>
