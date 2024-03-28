@@ -35,7 +35,7 @@ class PenjualanController extends Controller
                         return formatRupiah($penjualan->setoran);
                     })
                     ->addColumn('keuntungan_rupiah', function ($penjualan) {
-                        return formatRupiah($penjualan->keuntungan);
+                        return formatRupiah($penjualan->keuntungan + $penjualan->pemasukan);
                     })
                     ->addColumn('insentif_rupiah', function ($penjualan) {
                         return formatRupiah($penjualan->insentif);
