@@ -56,7 +56,7 @@
             <div class="col-lg-6 mb-3">
                 <div class="card card-body">
                     <div class="fs-5">
-                        <i class="fa-solid fa-money-bill me-2"></i> Setoran :
+                        <i class="fa-solid fa-money-bill me-2"></i> Pendapatan :
                         <span id="setor">Rp. 0</span>
                     </div>
                 </div>
