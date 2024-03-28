@@ -9,7 +9,6 @@
             </div>
             <form id="saveData" autocomplete="off">
                 <div class="modal-body">
-                    @method('PUT')
                     <input type="hidden" id="id">
                     <div class="form-group mb-3">
                         <label for="tanggal" class="form-label">Tanggal <span class="text-danger">*</span></label>

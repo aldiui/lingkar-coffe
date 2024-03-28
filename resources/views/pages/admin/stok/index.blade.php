@@ -71,7 +71,7 @@
             </div>
         </div>
     </div>
-    @include('pages.user.stok.modal')
+    @include('pages.admin.stok.modal')
 @endsection
 
 @push('scripts')
