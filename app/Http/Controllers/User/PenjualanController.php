@@ -20,13 +20,11 @@ class PenjualanController extends Controller
         $tahun = $request->tahun ?? date('Y');
 
         if ($request->ajax()) {
-            $penjualans = Penjualan::where('user_id', Auth::user()->id)->whereYear('created_at', $tahun)->whereMonth('created_at', $bulan)->get();
+            $penjualans = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->get();
             if ($request->mode == "datatable") {
                 return DataTables::of($penjualans)
-                    ->addColumn('aksi', function ($penjualan) {
-                        $editButton = '<button class="btn btn-sm btn-warning me-1" onclick="getModal(`createModal`, `/penjualan/' . $penjualan->id . '`, [`id`, `tanggal`, `qty`])"><i class="fas fa-pencil-alt"></i></button>';
-                        $deleteButton = '<button class="btn btn-sm btn-danger " onclick="confirmDelete(`/penjualan/' . $penjualan->id . '`, `penjualan-table`)"><i class="fas fa-trash"></i></button>';
-                        return $penjualan->status != 1 ? $editButton . $deleteButton : $penjualan->status_badge;
+                    ->addColumn('status', function ($penjualan) {
+                        return $penjualan->status_badge;
                     })
                     ->addColumn('tgl', function ($penjualan) {
                         return $penjualan->tgl;
@@ -35,13 +33,13 @@ class PenjualanController extends Controller
                         return formatRupiah($penjualan->setoran);
                     })
                     ->addColumn('keuntungan_rupiah', function ($penjualan) {
-                        return formatRupiah($penjualan->keuntungan + $penjualan->pemasukan);
+                        return formatRupiah($penjualan->keuntungan);
                     })
                     ->addColumn('insentif_rupiah', function ($penjualan) {
-                        return formatRupiah($penjualan->insentif);
+                        return formatRupiah($penjualan->insentif + $penjualan->keuntungan);
                     })
                     ->addIndexColumn()
-                    ->rawColumns(['aksi', 'tgl', 'setoran_rupiah', 'keuntungan_rupiah', 'insentif_rupiah'])
+                    ->rawColumns(['tgl', 'setoran_rupiah', 'keuntungan_rupiah', 'insentif_rupiah', 'status'])
                     ->make(true);
             }
         }
@@ -98,57 +96,13 @@ class PenjualanController extends Controller
         return $this->successResponse($penjualan, 'Data Penjualan ditemukan.');
     }
 
-    public function update(Request $request, $id)
+    public function setorPenjualan(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'tanggal' => 'required',
-            'qty' => 'required',
-        ]);
 
-        if ($validator->fails()) {
-            return $this->errorResponse($validator->errors(), 'Data tidak valid.', 422);
-        }
-
-        $penjualan = Penjualan::find($id);
-
-        if (!$penjualan) {
-            return $this->errorResponse(null, 'Data Penjualan tidak ditemukan.', 404);
-        }
-
-        $qty = $request->qty;
-
-        if (Auth::user()->stok < $qty) {
-            return $this->errorResponse(null, 'Stok tidak mencukupi.', 409);
-        }
-
-        $setoran = $qty * Auth::user()->hargaJual->hargaPokok->harga_pokok;
-        $insentif = $qty * Auth::user()->hargaJual->hargaPokok->insentif;
-        $pemasukan = $qty * Auth::user()->hargaJual->harga_jual;
-        $keuntungan = $qty * Auth::user()->hargaJual->hargaPokok->keuntungan;
-
-        $penjualan->update([
-            'tanggal' => $request->tanggal,
-            'qty' => $qty,
-            'setoran' => $setoran,
-            'keuntungan' => $keuntungan,
-            'insentif' => $insentif,
-            'pemasukan' => $pemasukan,
-        ]);
-
-        return $this->successResponse($penjualan, 'Data Penjualan diperbarui.');
     }
 
-    public function destroy($id)
+    public function tarikInsentif(Request $request)
     {
 
-        $penjualan = Penjualan::find($id);
-
-        if (!$penjualan) {
-            return $this->errorResponse(null, 'Data Penjualan tidak ditemukan.', 404);
-        }
-
-        $penjualan->delete();
-
-        return $this->successResponse(null, 'Data Penjualan telah dihapus.');
     }
 }

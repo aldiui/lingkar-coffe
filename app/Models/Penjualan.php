@@ -18,7 +18,7 @@ class Penjualan extends Model
 
     public function getStatusBadgeAttribute()
     {
-        return statusBadge($this->attributes['status']);
+        return statusBadgePenjualan($this->attributes['status']);
     }
 
     public function getTglAttribute()

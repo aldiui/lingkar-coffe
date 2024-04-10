@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('harga_pokoks', function (Blueprint $table) {
             $table->id();
-            $table->integer('harga_pokok');
-            $table->integer('keuntungan');
-            $table->integer('insentif');
+            $table->unsignedBigInteger('harga_pokok');
+            $table->unsignedBigInteger('keuntungan');
+            $table->unsignedBigInteger('insentif');
             $table->timestamps();
         });
     }

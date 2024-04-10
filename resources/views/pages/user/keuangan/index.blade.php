@@ -50,9 +50,13 @@
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="card card-body">
-                    <div class="fs-5">
+                    <div class="fs-5 mb-2">
                         <i class="fa-solid fa-wallet me-2"></i>Keuntungan :
                         <span id="keuntungan">Rp. 0</span>
+                    </div>
+                    <div class="fs-5 ">
+                        <i class="fa-solid fa-wallet me-2"></i>Pemasukan :
+                        <span id="pemasukan">Rp. 0</span>
                     </div>
                 </div>
             </div>
@@ -61,6 +65,8 @@
                     <div class="fs-5">
                         <i class="fa-solid fa-money-bill me-2"></i>Insentif : <span id="insentif">Rp. 0</span>
                     </div>
+                    <small class="text-small text-danger d-block mb-2">*Insentif bisa ditarik minimal 300 Pcs </small>
+                    <button class="btn btn-block btn-success btn-sm"><i class="fa-solid fa-money-bill me-2"></i>Tarik Insentif</button>
                 </div>
             </div>
             <div class="col-lg-4 mb-3">
@@ -68,6 +74,8 @@
                     <div class="fs-5">
                         <i class="fa-solid fa-credit-card me-2"></i>Setor Penjualan : <span id="setor">Rp. 0</span>
                     </div>
+                    <small class="text-small text-danger d-block mb-2">*Anda belum melakukakan setoran 30 Pcs </small>
+                    <button class="btn btn-block btn-info btn-sm"><i class="fa-solid fa-credit-card me-2"></i>Setor Penjualan</button>
                 </div>
             </div>
             <div class="col-lg-6 mb-3">

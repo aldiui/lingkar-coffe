@@ -17,17 +17,6 @@ if (!function_exists('formatRupiah')) {
     }
 }
 
-if (!function_exists('statusBadge')) {
-    function statusBadge($status)
-    {
-        $statusIcon = ($status == '0') ? '<i class="fas fa-clock me-1"></i>' : (($status == '1') ? '<i class="fas fa-check-circle me-1"></i>' : '<i class="fas fa-times-circle me-1"></i>');
-        $statusClass = ($status == '0') ? 'bg-warning' : (($status == '1') ? 'bg-success' : 'bg-danger');
-        $statusText = ($status == '0') ? 'Menunggu' : (($status == '1') ? 'Disetujui' : 'Ditolak');
-
-        return "<span class='badge d-inline-flex align-items-baseline $statusClass'>$statusIcon $statusText</span>";
-    }
-}
-
 if (!function_exists('bulan')) {
     function bulan()
     {
@@ -45,5 +34,45 @@ if (!function_exists('bulan')) {
             'November',
             'Desember',
         ];
+    }
+}
+
+if (!function_exists('statusBadge')) {
+    function statusBadge($status)
+    {
+        $statusIcon = ($status == '0') ? '<i class="fas fa-clock me-1"></i>' : (($status == '1') ? '<i class="fas fa-check-circle me-1"></i>' : '<i class="fas fa-times-circle me-1"></i>');
+        $statusClass = ($status == '0') ? 'bg-warning' : (($status == '1') ? 'bg-success' : 'bg-danger');
+        $statusText = ($status == '0') ? 'Menunggu' : (($status == '1') ? 'Disetujui' : 'Ditolak');
+
+        return "<span class='badge d-inline-flex align-items-baseline $statusClass'>$statusIcon $statusText</span>";
+    }
+}
+
+if (!function_exists('statusBadgePenjualan')) {
+    function statusBadgePenjualan($status)
+    {
+        $statusIcon = '';
+        $statusClass = '';
+        $statusText = '';
+
+        if ($status == '0') {
+            $statusIcon = '<i class="fas fa-clock me-1"></i>';
+            $statusClass = 'bg-warning';
+            $statusText = 'Belum';
+        } elseif ($status == '1') {
+            $statusIcon = '<i class="fas fa-check-circle me-1"></i>';
+            $statusClass = 'bg-success';
+            $statusText = 'Disetujui';
+        } elseif ($status == '2') {
+            $statusIcon = '<i class="fas fa-times-circle me-1"></i>';
+            $statusClass = 'bg-danger';
+            $statusText = 'Ditolak';
+        } else {
+            $statusIcon = '<i class="fas fa-exclamation-circle me-1"></i>';
+            $statusClass = 'bg-info';
+            $statusText = 'Periksa';
+        }
+
+        return "<span class='badge d-inline-flex align-items-baseline $statusClass'>$statusIcon $statusText disetorkan</span>";
     }
 }

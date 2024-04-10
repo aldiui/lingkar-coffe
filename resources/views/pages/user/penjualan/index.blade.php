@@ -63,6 +63,7 @@
                                         <th class="text-start">Pemasukan</th>
                                         <th class="text-start">Keuntungan</th>
                                         <th class="text-start">Insentif</th>
+                                        <th class="text-start">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -106,6 +107,10 @@
                 {
                     data: 'insentif_rupiah',
                     name: 'insentif_rupiah'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
             ]);
 

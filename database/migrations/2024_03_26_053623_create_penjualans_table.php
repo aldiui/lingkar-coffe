@@ -16,12 +16,16 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->date('tanggal');
             $table->integer('qty');
-            $table->integer('setoran');
-            $table->integer('keuntungan');
-            $table->integer('insentif');
-            $table->integer('pemasukan');
-            $table->enum('status', ['0', '1', '2'])->default('0');
+            $table->unsignedBigInteger('setoran');
+            $table->unsignedBigInteger('keuntungan');
+            $table->unsignedBigInteger('insentif');
+            $table->unsignedBigInteger('pemasukan');
+            $table->enum('status', ['0', '1', '2', '3'])->default('0');
+            $table->enum('insentif_status', ['0', '1', '2', '3'])->default('0');
+            $table->dateTime('status_time')->nullable();
+            $table->dateTime('insentif_time')->nullable();
             $table->timestamps();
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
