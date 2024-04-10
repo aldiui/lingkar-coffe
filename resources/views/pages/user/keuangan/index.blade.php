@@ -50,7 +50,7 @@
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="card card-body">
-                    <div class="fs-5 mb-2">
+                    <div class="fs-5 mb-3">
                         <i class="fa-solid fa-wallet me-2"></i>Keuntungan :
                         <span id="keuntungan">Rp. 0</span>
                     </div>
@@ -62,10 +62,9 @@
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="card card-body">
-                    <div class="fs-5">
+                    <div class="fs-5 mb-2">
                         <i class="fa-solid fa-money-bill me-2"></i>Insentif : <span id="insentif">Rp. 0</span>
                     </div>
-                    <small class="text-small text-danger d-block mb-2">*Insentif bisa ditarik minimal 300 Pcs </small>
                     <button class="btn btn-block btn-success btn-sm" onclick="changeKeungan('insentif')"><i
                             class="fa-solid fa-money-bill me-2"></i>Tarik
                         Insentif</button>
@@ -73,11 +72,9 @@
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="card card-body">
-                    <div class="fs-5">
+                    <div class="fs-5 mb-2">
                         <i class="fa-solid fa-credit-card me-2"></i>Setor Penjualan : <span id="setor">Rp. 0</span>
                     </div>
-                    <small class="text-small text-danger d-block mb-2">*Anda belum melakukakan setoran 30 Pcs serta setoran
-                        merupakan insentif + setoran penjualan </small>
                     <button class="btn btn-block btn-info btn-sm" onclick="changeKeungan('setor')"><i
                             class="fa-solid fa-credit-card me-2"></i>Setor Penjualan</button>
                 </div>
@@ -86,7 +83,7 @@
                 <div class="card card-body">
                     <div class="fs-5">
                         <i class="fa-solid fa-bolt me-2"></i> Target :
-                        <span>300</span> PCS/Bulan
+                        <span>{{ auth()->user()->hargaJual->hargaPokok->target }}</span> PCS/Bulan
                     </div>
                 </div>
             </div>
@@ -97,6 +94,14 @@
                         <span id="qty">0</span> PCS/Bulan</h5>
                     </div>
                 </div>
+            </div>
+            <div class="col-12 mb-3">
+                <small class="text-small text-danger d-block mb-1">*Insentif dapat diambil minimal dengan penjualan sebanyak
+                    {{ auth()->user()->hargaJual->hargaPokok->target }} Pcs. Pencapaian maksimal akan direset kembali
+                    menjadi 0 pada awal bulan berikutnya.</small>
+                <small class="text-small text-danger d-block">*Anda belum melakukan setoran sebanyak <span
+                        id="qty-setoran">0</span> Pcs. Setoran yang
+                    dimaksud merupakan gabungan dari insentif dan penjualan.</small>
             </div>
             <div class="col-12">
                 <div class="card">
@@ -111,6 +116,7 @@
                                         <th class="text-start">Pemasukan</th>
                                         <th class="text-start">Keuntungan</th>
                                         <th class="text-start">Insentif</th>
+                                        <th class="text-start">Setoran</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -135,24 +141,28 @@
                     name: 'DT_RowIndex'
                 },
                 {
-                    data: 'tgl',
-                    name: 'tgl'
+                    data: 'tanggal',
+                    name: 'tanggal'
                 },
                 {
                     data: 'qty',
                     name: 'qty'
                 },
                 {
-                    data: 'setoran_rupiah',
-                    name: 'setoran_rupiah'
+                    data: 'pemasukan',
+                    name: 'pemasukan'
                 },
                 {
-                    data: 'keuntungan_rupiah',
-                    name: 'keuntungan_rupiah'
+                    data: 'keuntungan',
+                    name: 'keuntungan'
                 },
                 {
-                    data: 'insentif_rupiah',
-                    name: 'insentif_rupiah'
+                    data: 'insentif',
+                    name: 'insentif'
+                },
+                {
+                    data: 'setoran',
+                    name: 'setoran'
                 },
             ]);
 

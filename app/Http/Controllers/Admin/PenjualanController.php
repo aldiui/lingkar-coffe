@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Penjualan;
+use App\Traits\ApiResponder;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PenjualanController extends Controller
 {
+    use ApiResponder;
+
     public function index(Request $request)
     {
         $bulan = $request->bulan ?? date('m');
@@ -19,30 +23,73 @@ class PenjualanController extends Controller
             if ($request->mode == "datatable") {
                 return DataTables::of($penjualans)
                     ->addColumn('aksi', function ($penjualan) {
-                        $editButton = '<button class="btn btn-sm btn-warning me-1" onclick="getModal(`createModal`, `/penjualan/' . $penjualan->id . '`, [`id`, `tanggal`, `qty`])"><i class="fas fa-pencil-alt"></i></button>';
-                        $deleteButton = '<button class="btn btn-sm btn-danger " onclick="confirmDelete(`/penjualan/' . $penjualan->id . '`, `penjualan-table`)"><i class="fas fa-trash"></i></button>';
-                        return $penjualan->status != 1 ? $editButton . $deleteButton : $penjualan->status_badge;
+                        $editButton = '<button class="btn btn-sm btn-warning me-1" onclick="getModal(`createModal`, `/admin/penjualan/' . $penjualan->id . '`, [`id`, `tanggal`, `qty`, `mitra`, `status`, `insentif_status`])"><i class="fas fa-pencil-alt"></i></button>';
+                        return $editButton;
                     })
-                    ->addColumn('tgl', function ($penjualan) {
+                    ->addColumn('status', function ($penjualan) {
+                        return $penjualan->status_badge;
+                    })
+                    ->addColumn('insentif_status', function ($penjualan) {
+                        return statusBadgeInsentif($penjualan->insentif_status);
+                    })
+                    ->addColumn('tanggal', function ($penjualan) {
                         return $penjualan->tgl;
                     })
-                    ->addColumn('setoran_rupiah', function ($penjualan) {
+                    ->addColumn('setoran', function ($penjualan) {
                         return formatRupiah($penjualan->setoran);
                     })
-                    ->addColumn('keuntungan_rupiah', function ($penjualan) {
+                    ->addColumn('keuntungan', function ($penjualan) {
                         return formatRupiah($penjualan->keuntungan);
                     })
-                    ->addColumn('insentif_rupiah', function ($penjualan) {
+                    ->addColumn('insentif', function ($penjualan) {
                         return formatRupiah($penjualan->insentif);
                     })
-                    ->addColumn('mitra', function ($stok) {
-                        return $stok->user->nama;
+                    ->addColumn('mitra', function ($penjualan) {
+                        return $penjualan->user->nama;
                     })
                     ->addIndexColumn()
-                    ->rawColumns(['aksi', 'tgl', 'setoran_rupiah', 'keuntungan_rupiah', 'insentif_rupiah', 'mitra'])
+                    ->rawColumns(['aksi', 'tanggal', 'setoran', 'keuntungan', 'insentif', 'mitra', 'status', 'insentif_status'])
                     ->make(true);
             }
         }
         return view('pages.admin.penjualan.index');
     }
+
+    public function show($id)
+    {
+        $penjualan = Penjualan::find($id);
+
+        if (!$penjualan) {
+            return $this->errorResponse(null, 'Data penjualan tidak ditemukan.', 404);
+        }
+
+        $penjualan->mitra = $penjualan->user->nama;
+
+        return $this->successResponse($penjualan, 'Data penjualan ditemukan.');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'status' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors(), 'Data tidak valid.', 422);
+        }
+
+        $penjualan = Penjualan::find($id);
+
+        if (!$penjualan) {
+            return $this->errorResponse(null, 'Data penjualan tidak ditemukan.', 404);
+        }
+
+        $penjualan->update([
+            'status' => $request->status,
+            'insentif_status' => ($request->status == 1) ? $request->insentif_status : 3,
+        ]);
+
+        return $this->successResponse($penjualan, 'Data penjualan diperbarui.');
+    }
+
 }

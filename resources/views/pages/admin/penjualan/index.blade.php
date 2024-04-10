@@ -58,9 +58,12 @@
                                         <th class="text-start">Tanggal</th>
                                         <th class="text-start">Mitra</th>
                                         <th class="text-start">Qty</th>
-                                        <th class="text-start">Pemasukan</th>
                                         <th class="text-start">Keuntungan</th>
                                         <th class="text-start">Insentif</th>
+                                        <th class="text-start">Pemasukan</th>
+                                        <th class="text-start">Status</th>
+                                        <th class="text-start">Penarikan</th>
+                                        <th class="text-start">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -72,6 +75,7 @@
             </div>
         </div>
     </div>
+    @include('pages.admin.penjualan.modal')
 @endsection
 
 @push('scripts')
@@ -85,8 +89,8 @@
                     name: 'DT_RowIndex'
                 },
                 {
-                    data: 'tgl',
-                    name: 'tgl'
+                    data: 'tanggal',
+                    name: 'tanggal'
                 },
                 {
                     data: 'mitra',
@@ -97,21 +101,53 @@
                     name: 'qty'
                 },
                 {
-                    data: 'setoran_rupiah',
-                    name: 'setoran_rupiah'
+                    data: 'keuntungan',
+                    name: 'keuntungan'
                 },
                 {
-                    data: 'keuntungan_rupiah',
-                    name: 'keuntungan_rupiah'
+                    data: 'insentif',
+                    name: 'insentif'
                 },
                 {
-                    data: 'insentif_rupiah',
-                    name: 'insentif_rupiah'
+                    data: 'setoran',
+                    name: 'setoran'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
+                    data: 'insentif_status',
+                    name: 'insentif_status'
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi'
                 },
             ]);
 
             $("#bulan_filter, #tahun_filter").on("change", function() {
                 $("#penjualan-table").DataTable().ajax.reload();
+            });
+
+            $("#saveData").submit(function(e) {
+                setButtonLoadingState("#saveData .btn.btn-primary", true);
+                e.preventDefault();
+                const kode = $("#saveData #id").val();
+                const url = `/admin/penjualan/${kode}`;
+                const data = new FormData(this);
+
+                const successCallback = function(response) {
+                    setButtonLoadingState("#saveData .btn.btn-primary", false);
+                    handleSuccess(response, "penjualan-table", "createModal");
+                };
+
+                const errorCallback = function(error) {
+                    setButtonLoadingState("#saveData .btn.btn-primary", false);
+                    handleValidationErrors(error, "saveData", ["status", "insentif_status"]);
+                };
+
+                ajaxCall(url, "POST", data, successCallback, errorCallback);
             });
         });
     </script>

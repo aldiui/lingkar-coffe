@@ -69,7 +69,7 @@
                 <div class="card card-body">
                     <div class="fs-5">
                         <i class="fa-solid fa-weight-hanging me-2"></i> Terjual :
-                        <span id="qty">300</span> PCS
+                        <span id="qty">0</span> PCS
                     </div>
                 </div>
             </div>
@@ -80,6 +80,9 @@
                         <span>{{ auth()->user()->stok }} PCS</span>
                     </div>
                 </div>
+            </div>
+            <div class="col-12 mb-3">
+                <small class="text-small text-danger d-block mb-1">*keuntungan disini merupakan total dari penjualan yaitu pemasukan dan keuntungan.</small>
             </div>
             <div class="col-12 mb-3">
                 <div class="card card-body">

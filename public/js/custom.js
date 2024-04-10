@@ -243,6 +243,7 @@ const reloadData = (type) => {
             $("#insentif").html(formatRupiah(response.data.insentif));
             $("#setor").html(formatRupiah(response.data.setoran));
             $("#qty").html(response.data.qty);
+            $("#qty-setoran").html(response.data.qtyBelumSetor);
             $("#pemasukan").html(formatRupiah(response.data.pemasukan));
         } else if (type == "keuangan") {
             $("#keuntungan").html(formatRupiah(response.data.keuntungan));

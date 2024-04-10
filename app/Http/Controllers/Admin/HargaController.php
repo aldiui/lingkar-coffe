@@ -20,6 +20,7 @@ class HargaController extends Controller
                 'harga_pokok' => 'required|numeric|min:0',
                 'keuntungan' => 'required|numeric|min:0',
                 'insentif' => 'required|numeric|min:0',
+                'target' => 'required|numeric|min:0',
             ]);
 
             if ($validator->fails()) {
@@ -30,7 +31,7 @@ class HargaController extends Controller
                 return $this->errorResponse(null, 'Data Harga Pokok tidak ditemukan.', 404);
             }
 
-            $hargaPokok->update($request->only('harga_pokok', 'keuntungan', 'insentif'));
+            $hargaPokok->update($request->only('harga_pokok', 'keuntungan', 'insentif', 'target'));
 
             return $this->successResponse($hargaPokok, 'Data Harga Pokok berhasil diperbarui.');
         }

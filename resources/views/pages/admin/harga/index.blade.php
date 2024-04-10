@@ -40,6 +40,13 @@
                                     name="insentif" value="{{ $hargaPokok->insentif }}">
                                 <small class="text-danger small" id="errorinsentif"></small>
                             </div>
+                            <div class="form-group mb-3">
+                                <label for="target" class="form-label">Target Penjualan Qty Per Bulan <span
+                                        class="text-danger">*</span></label>
+                                <input type="number" class="form-control border-custom border-3" id="target"
+                                    name="target" value="{{ $hargaPokok->target }}">
+                                <small class="text-danger small" id="errortarget"></small>
+                            </div>
                             <div class="form-group mt-4 mb-2">
                                 <button class="btn btn-primary btn-sm" type="submit">Simpan</button>
                             </div>
@@ -69,7 +76,7 @@
                 const errorCallback = function(error) {
                     setButtonLoadingState("#updateData .btn.btn-primary", false);
                     handleValidationErrors(error, "updateData", ["harga_pokok", "keuntungan",
-                        "insentif"
+                        "insentif", "target"
                     ]);
                 };
 

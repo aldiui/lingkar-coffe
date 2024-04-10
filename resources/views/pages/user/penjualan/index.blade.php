@@ -63,7 +63,9 @@
                                         <th class="text-start">Pemasukan</th>
                                         <th class="text-start">Keuntungan</th>
                                         <th class="text-start">Insentif</th>
+                                        <th class="text-start">Setoran</th>
                                         <th class="text-start">Status</th>
+                                        <th class="text-start">Penarikan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,29 +91,37 @@
                     name: 'DT_RowIndex'
                 },
                 {
-                    data: 'tgl',
-                    name: 'tgl'
+                    data: 'tanggal',
+                    name: 'tanggal'
                 },
                 {
                     data: 'qty',
                     name: 'qty'
                 },
                 {
-                    data: 'setoran_rupiah',
-                    name: 'setoran_rupiah'
+                    data: 'pemasukan',
+                    name: 'pemasukan'
                 },
                 {
-                    data: 'keuntungan_rupiah',
-                    name: 'keuntungan_rupiah'
+                    data: 'keuntungan',
+                    name: 'keuntungan'
                 },
                 {
-                    data: 'insentif_rupiah',
-                    name: 'insentif_rupiah'
+                    data: 'insentif',
+                    name: 'insentif'
+                },
+                {
+                    data: 'setoran',
+                    name: 'setoran'
                 },
                 {
                     data: 'status',
                     name: 'status'
                 },
+                {
+                    data: 'insentif_status',
+                    name: 'insentif_status'
+                }
             ]);
 
             $("#bulan_filter, #tahun_filter").on("change", function() {

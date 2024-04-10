@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Penjualan;
+use App\Models\HargaPokok;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class KeuanganController extends Controller
 {
@@ -15,6 +16,7 @@ class KeuanganController extends Controller
     {
         $bulan = $request->bulan ?? date('m');
         $tahun = $request->tahun ?? date('Y');
+        $hargaPokok = HargaPokok::find('1');
 
         if ($request->ajax()) {
             $setoran = Penjualan::whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('setoran');
@@ -25,6 +27,6 @@ class KeuanganController extends Controller
             return $this->successResponse(compact('setoran', 'keuntungan', 'insentif', 'qty'), 'Data Keuangan.');
         }
 
-        return view('pages.admin.keuangan.index');
+        return view('pages.admin.keuangan.index', compact('hargaPokok'));
     }
 }

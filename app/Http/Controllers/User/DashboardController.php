@@ -20,8 +20,10 @@ class DashboardController extends Controller
         $tahun = $request->tahun ?? date('Y');
 
         if ($request->ajax()) {
-            $setoran = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('setoran');
-            $keuntungan = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('pemasukan');
+            $insentif = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('insentif');
+            $setoran = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('setoran') + $insentif;
+            $pemasukan = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('pemasukan');
+            $keuntungan = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('keuntungan') + $pemasukan;
 
             $qty = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('qty');
             $startDate = Carbon::createFromDate($tahun, $bulan, 1)->startOfMonth();

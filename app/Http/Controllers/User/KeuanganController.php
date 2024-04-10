@@ -20,11 +20,17 @@ class KeuanganController extends Controller
         if ($request->ajax()) {
             $pemasukan = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('pemasukan');
             $keuntungan = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('keuntungan');
-            $insentif = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('insentif');
-            $setoran = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('setoran') + $insentif;
+            $insentif = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->where('status', '1')->sum('insentif');
+            $insentifData = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('insentif');
+            $setoran = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('setoran') + $insentifData;
             $qty = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->sum('qty');
+            if ($request->bulan == now()->month && $request->tahun == now()->year) {
+                $qtyBelumSetor = Penjualan::where('user_id', Auth::user()->id)->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->where('status', '0')->sum('qty');
+            } else {
+                $qtyBelumSetor = 0;
+            }
 
-            return $this->successResponse(compact('setoran', 'keuntungan', 'insentif', 'qty', 'pemasukan'), 'Data Keuangan.');
+            return $this->successResponse(compact('setoran', 'keuntungan', 'insentif', 'qty', 'pemasukan', 'qtyBelumSetor'), 'Data Keuangan.');
         }
 
         return view('pages.user.keuangan.index');

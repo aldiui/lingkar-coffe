@@ -58,7 +58,7 @@ if (!function_exists('statusBadgePenjualan')) {
         if ($status == '0') {
             $statusIcon = '<i class="fas fa-clock me-1"></i>';
             $statusClass = 'bg-warning';
-            $statusText = 'Belum';
+            $statusText = 'Belum Disetorkan';
         } elseif ($status == '1') {
             $statusIcon = '<i class="fas fa-check-circle me-1"></i>';
             $statusClass = 'bg-success';
@@ -73,6 +73,35 @@ if (!function_exists('statusBadgePenjualan')) {
             $statusText = 'Periksa';
         }
 
-        return "<span class='badge d-inline-flex align-items-baseline $statusClass'>$statusIcon $statusText disetorkan</span>";
+        return "<span class='badge d-inline-flex align-items-baseline $statusClass'>$statusIcon $statusText</span>";
+    }
+}
+
+if (!function_exists('statusBadgeInsentif')) {
+    function statusBadgeInsentif($status)
+    {
+        $statusIcon = '';
+        $statusClass = '';
+        $statusText = '';
+
+        if ($status == '0') {
+            $statusIcon = '<i class="fas fa-times-circle me-1"></i>';
+            $statusClass = 'bg-danger';
+            $statusText = 'Tidak Dapat Penarikan';
+        } elseif ($status == '1') {
+            $statusIcon = '<i class="fas fa-check-circle me-1"></i>';
+            $statusClass = 'bg-success';
+            $statusText = 'Disetujui';
+        } elseif ($status == '2') {
+            $statusIcon = '<i class="fas fa-exclamation-circle me-1"></i>';
+            $statusClass = 'bg-info';
+            $statusText = 'Proses Penarikan';
+        } else {
+            $statusIcon = '<i class="fas fa-clock me-1"></i>';
+            $statusClass = 'bg-warning';
+            $statusText = 'Belum Dievaluasi';
+        }
+
+        return "<span class='badge d-inline-flex align-items-baseline $statusClass'>$statusIcon $statusText</span>";
     }
 }

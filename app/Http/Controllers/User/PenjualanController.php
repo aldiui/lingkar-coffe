@@ -26,20 +26,26 @@ class PenjualanController extends Controller
                     ->addColumn('status', function ($penjualan) {
                         return $penjualan->status_badge;
                     })
-                    ->addColumn('tgl', function ($penjualan) {
+                    ->addColumn('insentif_status', function ($penjualan) {
+                        return statusBadgeInsentif($penjualan->insentif_status);
+                    })
+                    ->addColumn('tanggal', function ($penjualan) {
                         return $penjualan->tgl;
                     })
-                    ->addColumn('setoran_rupiah', function ($penjualan) {
-                        return formatRupiah($penjualan->setoran);
+                    ->addColumn('setoran', function ($penjualan) {
+                        return formatRupiah($penjualan->setoran + $penjualan->keuntungan);
                     })
-                    ->addColumn('keuntungan_rupiah', function ($penjualan) {
+                    ->addColumn('keuntungan', function ($penjualan) {
                         return formatRupiah($penjualan->keuntungan);
                     })
-                    ->addColumn('insentif_rupiah', function ($penjualan) {
-                        return formatRupiah($penjualan->insentif + $penjualan->keuntungan);
+                    ->addColumn('insentif', function ($penjualan) {
+                        return formatRupiah($penjualan->status == "1" ? $penjualan->insentif : 0);
+                    })
+                    ->addColumn('pemasukan', function ($penjualan) {
+                        return formatRupiah($penjualan->pemasukan);
                     })
                     ->addIndexColumn()
-                    ->rawColumns(['tgl', 'setoran_rupiah', 'keuntungan_rupiah', 'insentif_rupiah', 'status'])
+                    ->rawColumns(['tanggal', 'setoran', 'keuntungan', 'insentif', 'status', 'pemasukan', 'insentif_status'])
                     ->make(true);
             }
         }
@@ -103,6 +109,7 @@ class PenjualanController extends Controller
         $penjualan = $user->penjualans()
             ->whereYear('tanggal', $now->year)
             ->whereMonth('tanggal', $now->month)
+            ->where('status', '0')
             ->get();
 
         if ($penjualan->isEmpty()) {
@@ -126,6 +133,7 @@ class PenjualanController extends Controller
         $penjualan = $user->penjualans()
             ->whereYear('tanggal', $now->year)
             ->whereMonth('tanggal', $now->month)
+            ->where('status', '1')
             ->get();
 
         if ($penjualan->isEmpty()) {
@@ -134,17 +142,17 @@ class PenjualanController extends Controller
 
         $totalQty = $penjualan->sum('qty');
 
-        if ($totalQty >= 300) {
+        if ($totalQty >= Auth::user()->hargaJual->hargaPokok->target) {
             $penjualan->each(function ($sale) use ($now) {
                 $sale->update([
-                    'status_insentif' => '3',
+                    'insentif_status' => '3',
                     'insentif_time' => $now,
                 ]);
             });
 
             return $this->successResponse(null, 'Insentif Penjualan di Proses.');
         } else {
-            return $this->errorResponse(null, `Anda tidak bisa mendapatkan insentif karena penjualan tidak mencapai target hanya .`);
+            return $this->errorResponse(null, 'Anda tidak bisa mendapatkan insentif karena penjualan tidak mencapai target.');
         }
     }
 

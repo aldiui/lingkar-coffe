@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('harga_pokok');
             $table->unsignedBigInteger('keuntungan');
             $table->unsignedBigInteger('insentif');
-            $table->unsignedBigInteger('target');
+            $table->unsignedBigInteger('target')->default('100');
             $table->timestamps();
         });
     }

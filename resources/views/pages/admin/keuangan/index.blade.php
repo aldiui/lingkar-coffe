@@ -75,7 +75,7 @@
                 <div class="card card-body">
                     <div class="fs-5">
                         <i class="fa-solid fa-bolt me-2"></i> Target :
-                        <span>300</span> PCS/Bulan
+                        <span>{{ $hargaPokok->target }}</span> PCS/Bulan
                     </div>
                 </div>
             </div>
@@ -98,9 +98,9 @@
                                         <th class="text-start">Tanggal</th>
                                         <th class="text-start">Mitra</th>
                                         <th class="text-start">Qty</th>
-                                        <th class="text-start">Pemasukan</th>
                                         <th class="text-start">Keuntungan</th>
                                         <th class="text-start">Insentif</th>
+                                        <th class="text-start">Pemasukan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -125,8 +125,8 @@
                     name: 'DT_RowIndex'
                 },
                 {
-                    data: 'tgl',
-                    name: 'tgl'
+                    data: 'tanggal',
+                    name: 'tanggal'
                 },
                 {
                     data: 'mitra',
@@ -137,16 +137,16 @@
                     name: 'qty'
                 },
                 {
-                    data: 'setoran_rupiah',
-                    name: 'setoran_rupiah'
+                    data: 'keuntungan',
+                    name: 'keuntungan'
                 },
                 {
-                    data: 'keuntungan_rupiah',
-                    name: 'keuntungan_rupiah'
+                    data: 'insentif',
+                    name: 'insentif'
                 },
                 {
-                    data: 'insentif_rupiah',
-                    name: 'insentif_rupiah'
+                    data: 'setoran',
+                    name: 'setoran'
                 },
             ]);
 
