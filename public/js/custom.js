@@ -301,3 +301,38 @@ const renderChart = (labels, qty) => {
     const chart = new ApexCharts(document.querySelector("#chart"), options);
     chart.render();
 };
+
+const changeKeungan = (params) => {
+    Swal.fire({
+        title: "Apakah Kamu Yakin?",
+        text: `Ingin melakukan ${params} pada bulan ini!`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, proses!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const data = null;
+
+            const successCallback = function (response) {
+                notification("success", response.message);
+                setTimeout(() => {
+                    window.location.href = "/penjualan";
+                }, 1500);
+            };
+
+            const errorCallback = function (error) {
+                notification("error", error.responseJSON.message);
+            };
+
+            ajaxCall(
+                `/${params}-penjualan`,
+                "POST",
+                data,
+                successCallback,
+                errorCallback
+            );
+        }
+    });
+};

@@ -14,6 +14,8 @@ Route::middleware(['auth', 'checkRole:user'])->group(function () {
     Route::resource('stok', App\Http\Controllers\User\StokController::class)->names('stok');
     Route::resource('penjualan', App\Http\Controllers\User\PenjualanController::class)->names('penjualan');
     Route::get('keuangan', [App\Http\Controllers\User\KeuanganController::class, 'index'])->name('keuangan');
+    Route::post('setor-penjualan', [App\Http\Controllers\User\PenjualanController::class, 'setorPenjualan'])->name('setor.penjualan');
+    Route::post('insentif-penjualan', [App\Http\Controllers\User\PenjualanController::class, 'insentifPenjualan'])->name('insentif.penjualan');
 });
 
 Route::prefix('admin')->middleware(['auth', 'checkRole:admin'])->group(function () {

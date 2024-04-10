@@ -98,11 +98,54 @@ class PenjualanController extends Controller
 
     public function setorPenjualan(Request $request)
     {
+        $now = now();
+        $user = Auth::user();
+        $penjualan = $user->penjualans()
+            ->whereYear('tanggal', $now->year)
+            ->whereMonth('tanggal', $now->month)
+            ->get();
 
+        if ($penjualan->isEmpty()) {
+            return $this->errorResponse(null, 'Anda tidak memiliki penjualan untuk bulan ini.');
+        }
+
+        $penjualan->each(function ($sale) use ($now) {
+            $sale->update([
+                'status' => "3",
+                'status_time' => $now,
+            ]);
+        });
+
+        return $this->successResponse(null, 'Setor Penjualan di Proses.');
     }
 
-    public function tarikInsentif(Request $request)
+    public function insentifPenjualan(Request $request)
     {
+        $now = now();
+        $user = Auth::user();
+        $penjualan = $user->penjualans()
+            ->whereYear('tanggal', $now->year)
+            ->whereMonth('tanggal', $now->month)
+            ->get();
 
+        if ($penjualan->isEmpty()) {
+            return $this->errorResponse(null, 'Anda tidak memiliki penjualan untuk bulan ini.');
+        }
+
+        $totalQty = $penjualan->sum('qty');
+
+        if ($totalQty >= 300) {
+            $penjualan->each(function ($sale) use ($now) {
+                $sale->update([
+                    'status_insentif' => '3',
+                    'insentif_time' => $now,
+                ]);
+            });
+
+            return $this->successResponse(null, 'Insentif Penjualan di Proses.');
+        } else {
+            return $this->errorResponse(null, `Anda tidak bisa mendapatkan insentif karena penjualan tidak mencapai target hanya .`);
+        }
     }
+
 }
